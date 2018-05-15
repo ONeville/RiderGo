@@ -1,0 +1,52 @@
+<ion-header no-border>
+  <ion-navbar color="nav-color">
+    <!-- <ion-title>
+      Add Your Phone Number
+    </ion-title> -->
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="no-scroll" padding>
+
+  <form [formGroup]="profileForm" (submit)="save()" novalidate>
+   
+
+    <ion-label text-center color="primary" paddding stacked></ion-label>
+    <ion-input formControlName="firstName" type="tel" placeholder="Your first name" 
+      [class.invalid]="!profileForm.controls.firstName.valid && profileForm.controls.firstName.dirty">
+    </ion-input>
+    
+    <ion-item no-lines class="error-message" 
+      *ngIf="!profileForm.controls.firstName.valid  && profileForm.controls.firstName.dirty">
+      <p>required</p>
+    </ion-item>
+
+    <ion-label text-center color="primary" paddding stacked></ion-label>
+    <ion-input formControlName="lastName" type="tel" placeholder="Your last name" 
+      [class.invalid]="!profileForm.controls.lastName.valid && profileForm.controls.lastName.dirty">
+    </ion-input>
+  
+    <ion-item no-lines class="error-message" 
+      *ngIf="!profileForm.controls.lastName.valid  && profileForm.controls.lastName.dirty">
+      <p>required</p>
+    </ion-item>
+
+    <ion-label text-center color="primary" paddding stacked></ion-label>
+    <ion-input formControlName="phone" type="tel" placeholder="Your phone number" 
+      [class.invalid]="!profileForm.controls.phone.valid && profileForm.controls.phone.dirty">
+    </ion-input>
+
+    <ion-item no-lines class="error-message" 
+      *ngIf="!profileForm.controls.phone.valid  && profileForm.controls.phone.dirty">
+      <p>11 numbers needed e.g 080XXXXXXXXX</p>
+    </ion-item>
+
+
+    <button padding ion-button block type="submit" [disabled]="!profileForm.valid">
+        <ion-icon name="save"></ion-icon>
+      Save
+    </button>
+
+  </form>
+</ion-content>
