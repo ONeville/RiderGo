@@ -1,22 +1,19 @@
 import { RiderState } from './enums'
 export class DriverPoolModel {
-    // public Id: string = '0'    
     public DriverId: string
     public DriverStatus: number
     public Quote: number
-    public Location: Array<number>
-    public StatusTime: number
     constructor() {
  
     }
-
-    setModel(driver, status, quote, location, statusTime){
+//location, statusTime
+    setModel(driver, status, quote){
         // this.Id = id;
         this.DriverId = driver;
         this.DriverStatus = status;
         this.Quote = quote;
-        this.Location = location;
-        this.StatusTime = statusTime;
+        // this.Location = location;
+        // this.StatusTime = statusTime;
     }
  
     getModel(){
@@ -24,31 +21,39 @@ export class DriverPoolModel {
             // id: this.Id,   
             driverId: this.DriverId,
             driverStatus: this.DriverStatus,
-            price: this.Quote,
-            location: this.Location,
-            statusTime: this.StatusTime
+            quote: this.Quote,
+            // location: this.Location,
+            // statusTime: this.StatusTime
         }
     }
 }
 
 import firebase from 'firebase';
 export class DriverPoolService {
+    private profileDb: firebase.database.Reference;
     constructor() {
- 
+        this.profileDb = firebase.database().ref('rider/driverPools'); 
     }
 
     addDriverInPool(pool: DriverPoolModel) {
-        return firebase.database().ref(`driverPoolModel/${pool.DriverId}`).set(pool.getModel());
+        var profileRef = this.profileDb.child(pool.DriverId);
+         profileRef.set(pool.getModel());
+        return profileRef;
     }
 
     updateDriverStatus(pool: DriverPoolModel) {
-        return firebase.database().ref(`driverPoolModel/${pool.DriverId}`).update({
-            driverStatus: pool.DriverStatus,
-            price: pool.Quote,
-            location: pool.Location
-        });
+        // return firebase.database().ref(`driverPoolModel/${pool.DriverId}`).update({
+        //     driverStatus: pool.DriverStatus,
+        //     price: pool.Quote
+        // });
+        var profileRef = this.profileDb.child(pool.DriverId);
+         profileRef.update({
+                driverStatus: pool.DriverStatus,
+                price: pool.Quote
+            });
+        return profileRef;
     }
-    removeDriverFromPool(pool: DriverPoolModel) {
-        return firebase.database().ref(`driverPoolModel/${pool.DriverId}`).remove();
+    removeDriverFromPool(id) {
+        return this.profileDb.child(id).remove();
     }
 }

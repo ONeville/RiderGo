@@ -5,7 +5,7 @@ import {
   Loading,
   LoadingController,
   AlertController, MenuController  } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 // import { AuthProvider } from '../../providers/auth/auth';
 import { IonicPage } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -60,9 +60,16 @@ export class UserIdentityPage implements OnInit {
   initForm() {
     if (!this.onEdit) {
       this.profileForm = this.formBuilder.group({
-        firstName: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(200), Validators.required])],
-        lastName: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(200), Validators.required])],
-        phone: ['', Validators.compose([Validators.minLength(11), Validators.maxLength(11), Validators.required])],
+        firstName:  new FormControl('', Validators.required),
+        lastName: new FormControl('', Validators.required),
+        phone: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.minLength(11), Validators.maxLength(11)
+        ]))
+        
+        // firstName: ['',Validators.compose([Validators.required])],
+        // lastName: ['',Validators.compose([Validators.required])],
+        // phone: ['',Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(11)])],
       });
     }
 

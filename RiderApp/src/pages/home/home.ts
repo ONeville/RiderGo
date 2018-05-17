@@ -19,6 +19,12 @@ import { DriverPoolModel, DriverPoolService } from '../../models/driverPool';
  * Ionic pages and navigation.
  */
 
+ interface pickModel {
+    id: string,
+    email: string,
+    location: string
+}
+
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -29,11 +35,13 @@ export class HomePage {
   
   userProfile: UserProfileModel;
   service: UserProfileService;
+  poolService: DriverPoolService;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams
     , private geoFire: GeofireProvider
     , private profileProvider: Profile02Provider) {
+    this.poolService = new DriverPoolService();
   }
   
   ionViewDidLoad(){
@@ -61,15 +69,34 @@ export class HomePage {
 
 
   notify() {
-    console.log("Toggled: "+ this.isAvailable); 
+    console.log("Toggled: " + this.isAvailable); 
+    if (this.isAvailable) {
+      this.testGeoFire();      
+    } else {
+      this.poolService.removeDriverFromPool(this.userProfile.Id);
+    }
+  }
+
+  testGeoFire() {
+    
+    var rider = new DriverPoolModel();
+    rider.setModel(this.userProfile.Id, 1, 0.56)
+    this.poolService.addDriverInPool(rider).on("child_added", function(snapshot, prevChildKey) {
+      var newPost = snapshot.val();
+      
+      this.geoFire.setInPool(newPost, [32.777671, -96.803704]);
+    });
+    
+    
+    // this.geoFire.setInPool({ id: this.userProfile.Id, name: "driver - 2", status: 1, quote: 0.56, date: new Date() }, [32.778970, -96.796494]);
+    // this.geoFire.setInPool({ id: this.userProfile.Id, name: "driver - 3", status: 1, quote: 0.56, date: new Date() }, [32.777036, -96.792160]);
+    // this.geoFire.setInPool({ id: this.userProfile.Id, name: "driver - 4", status: 1, quote: 0.56, date: new Date() }, [32.786417, -96.792675]);
   }
 
   inquireLocation(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position)=>{
 
-        var driver = new DriverPoolModel();
-        driver.setModel(this.userProfile.Id, "On", 0.56, [crd.latitude, crd.longitude], new Date())
 
 
         var crd = position.coords;
