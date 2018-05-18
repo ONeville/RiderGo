@@ -81,10 +81,13 @@ export class HomePage {
     
     var rider = new DriverPoolModel();
     rider.setModel(this.userProfile.Id, 1, 0.56)
-    this.poolService.addDriverInPool(rider).on("child_added", function(snapshot, prevChildKey) {
-      var newPost = snapshot.val();
-      
-      this.geoFire.setInPool(newPost, [32.777671, -96.803704]);
+    this.poolService.addDriverInPool(rider).on("child_added", function (snapshot, prevChildKey) {
+      if (snapshot) {
+        if (snapshot.key == 'driverId') {
+          var newPost = snapshot.val();      
+          this.geoFire.setInPool(newPost, [32.777671, -96.803704]);          
+        }
+      }
     });
     
     

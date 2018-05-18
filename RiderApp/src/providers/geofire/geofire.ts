@@ -17,11 +17,11 @@ export class GeofireProvider {
   public hits = new BehaviorSubject([])
   
   constructor() {
-    // let dbRefDb = firebase.database().ref();
-    // this.geoFire = new GeoFire(dbRefDb);
-    let dbRefDbX = firebase.database().ref();
-    var riderPool = dbRefDbX.child('driver/driverPoolModel');
-    this.geoFire = new GeoFire(riderPool);
+    let dbRefDb = firebase.database().ref();
+    this.geoFire = new GeoFire(dbRefDb);
+    // let dbRefDbX = firebase.database().ref();
+    // var riderPool = dbRefDbX.child('driver/driverPoolModel');
+    // this.geoFire = new GeoFire(riderPool);
   }
 
      /// Adds GeoFire data to database
