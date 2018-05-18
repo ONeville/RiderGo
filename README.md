@@ -80,3 +80,15 @@ Intro splash screen to give appealing look to the app. Google api integration fo
 Clean and Easy to understand Dashboard which display all relevant statistics.
 
 View Realtime driver and passenger activity on map. View all Driver’s .. View all User’s .. View Flagged Driver and Option to block them.. View Flagged User and Option to block users.. Option to view all users.. Set Prices for Car types .. Set Currencies .. And much more …
+
+
+
+Centrer: (32.776664, -96.796988)
+
+[32.777671, -96.803704]
+[32.773558, -96.806107]
+[32.778970, -96.796494]
+[32.783769, -96.802073]
+[32.777036, -96.792160]
+[32.786417, -96.792675]
+
