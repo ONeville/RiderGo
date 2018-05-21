@@ -18,10 +18,10 @@ export class GeofireProvider {
   
   constructor() {
     let dbRefDb = firebase.database().ref();
-    this.geoFire = new GeoFire(dbRefDb);
+    // this.geoFire = new GeoFire(dbRefDb);
     // let dbRefDbX = firebase.database().ref();
-    // var riderPool = dbRefDbX.child('driver/driverPoolModel');
-    // this.geoFire = new GeoFire(riderPool);
+    var riderPool = dbRefDb.child('driver/driverPoolModel');
+    this.geoFire = new GeoFire(riderPool);
   }
 
      /// Adds GeoFire data to database
@@ -31,12 +31,16 @@ export class GeofireProvider {
               .catch(err => console.log(err))
   }
 
-  setInPool(key:any, coords: Array<number>) {
-    this.geoFire.set(key.id, coords, key)
+  setInPool(key:string, coords: Array<number>) {
+    this.geoFire.set(key, coords, key)
               .then(_ => console.log('location updated'))
               .catch(err => console.log(err))
   }
  
+  removeFromPool(id){
+    // let dbDb = firebase.database().ref();
+    // dbDb.child('driver/driverPoolModel').remove(id);
+  }
     setDriverLocation(driver: DriverPoolModel) {
 
       this.geoFire.set(driver)

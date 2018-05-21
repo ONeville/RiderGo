@@ -54,6 +54,7 @@ export class DriverPoolService {
         return profileRef;
     }
     removeDriverFromPool(id) {
-        return this.profileDb.child(id).remove();
+        this.profileDb.child(id).remove();
+        firebase.database().ref('driver/driverPoolModel').child(id).remove();
     }
 }
