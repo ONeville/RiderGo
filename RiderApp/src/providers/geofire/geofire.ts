@@ -14,9 +14,11 @@ import { DriverPoolModel, DriverPoolService } from '../../models/driverPool';
 export class GeofireProvider {
   dbRef: any;
   geoFire: any;
-  public hits = new BehaviorSubject([])
+  public hits = new BehaviorSubject([]);
+  poolService: DriverPoolService;
   
   constructor() {
+    this.poolService = new DriverPoolService();
     let dbRefDb = firebase.database().ref();
     // this.geoFire = new GeoFire(dbRefDb);
     // let dbRefDbX = firebase.database().ref();
@@ -54,14 +56,22 @@ export class GeofireProvider {
         radius: radius
       })
       .on('key_entered', (key, location, distance) => {
-        let hit = {
-          location: location,
-          distance: distance
-        }
+        
+
+        this.poolService.getDriverFromPool(key).on('value', snap => {
+          if (snap.val()) {
+            let hit = {
+              location: location,
+              distance: distance.toString().substring(0, 4),
+              name: snap.val().driverId,
+              quote: snap.val().quote
+            }
+            let currentHits = this.hits.value
+            currentHits.push(hit)
+            this.hits.next(currentHits)
+          }
+        })
   
-        let currentHits = this.hits.value
-        currentHits.push(hit)
-        this.hits.next(currentHits)
       })
      }
  

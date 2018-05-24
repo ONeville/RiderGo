@@ -19,11 +19,11 @@ import { DriverPoolModel, DriverPoolService } from '../../models/driverPool';
  * Ionic pages and navigation.
  */
 
- interface pickModel {
-    id: string,
-    email: string,
-    location: string
-}
+//  interface pickModel {
+//     id: string,
+//     email: string,
+//     location: string
+// }
 
 @IonicPage()
 @Component({
@@ -32,6 +32,7 @@ import { DriverPoolModel, DriverPoolService } from '../../models/driverPool';
 })
 export class HomePage {
   isAvailable: boolean = false;
+  poolData: any = [];
   
   userProfile: UserProfileModel;
   service: UserProfileService;
@@ -43,7 +44,6 @@ export class HomePage {
     , public poolProvider: GeofireProvider) {
 
     this.poolService = new DriverPoolService();
-    // this.geoFirePr.setInPool("newPost1000", [32.777671, -96.803704]);  
     this.poolProvider.getDriversOnService(0.78, [32.775625, -96.801848]);
     
   }
@@ -76,6 +76,10 @@ export class HomePage {
     console.log("Toggled: " + this.isAvailable); 
 
     console.log(this.poolProvider.hits.value);
+
+    this.sortedData();
+
+    
     
 
     if (this.isAvailable) {
@@ -89,6 +93,12 @@ export class HomePage {
     }
   }
 
+  sortedData(){
+    this.poolData = this.poolProvider.hits.value.slice(0);
+    this.poolData.sort((a,b)=>a.quote-b.quote);
+    console.log(this.poolData);
+
+  }
   
   testGeoFire() {
     // this.poolProvider.setInPool(this.userProfile.Id, [32.777671, -96.803704]);
@@ -106,10 +116,10 @@ export class HomePage {
     var rider2 = new DriverPoolModel();
     var rider3 = new DriverPoolModel();
     var rider4 = new DriverPoolModel();
-    rider1.setModel("driver - 1", 1, 0.56)
-    rider2.setModel("driver - 2", 1, 0.58)
-    rider3.setModel("driver - 3", 1, 0.62)
-    rider4.setModel("driver - 4", 1, 0.50)
+    rider1.setModel("driver - 1", "driver - 1", 1, 0.56)
+    rider2.setModel("driver - 2", "driver - 2", 1, 0.58)
+    rider3.setModel("driver - 3", "driver - 3", 1, 0.62)
+    rider4.setModel("driver - 4", "driver - 4", 1, 0.50)
     this.poolService.addDriverInPool(rider1);
     this.poolService.addDriverInPool(rider2);
     this.poolService.addDriverInPool(rider3);
@@ -138,7 +148,7 @@ export class HomePage {
         // this.geoFire.setLocation(locationLb, [crd.latitude, crd.longitude])
         this.poolProvider.setInPool(this.userProfile.Id, [crd.latitude, crd.longitude]); 
         var rider = new DriverPoolModel();
-        rider.setModel(this.userProfile.Id, 1, 0.56)
+        rider.setModel(this.userProfile.Id, this.userProfile.FirstName, 1, 0.56)
         this.poolService.addDriverInPool(rider);
 
       }, ()=>{ console.warn(`ERROR: geolocation`);});

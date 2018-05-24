@@ -1,15 +1,17 @@
 import { RiderState } from './enums'
 export class DriverPoolModel {
     public DriverId: string
+    public Driver: string
     public DriverStatus: number
     public Quote: number
     constructor() {
  
     }
 //location, statusTime
-    setModel(driver, status, quote){
+    setModel(id, driver, status, quote){
         // this.Id = id;
-        this.DriverId = driver;
+        this.DriverId = id;
+        this.Driver = driver;
         this.DriverStatus = status;
         this.Quote = quote;
         // this.Location = location;
@@ -20,6 +22,7 @@ export class DriverPoolModel {
         return {
             // id: this.Id,   
             driverId: this.DriverId,
+            driver: this.Driver,
             driverStatus: this.DriverStatus,
             quote: this.Quote,
             // location: this.Location,
@@ -56,5 +59,9 @@ export class DriverPoolService {
     removeDriverFromPool(id) {
         this.profileDb.child(id).remove();
         firebase.database().ref('driver/driverPoolModel').child(id).remove();
+    }
+    
+    getDriverFromPool(id) {
+        return this.profileDb.child(id);
     }
 }

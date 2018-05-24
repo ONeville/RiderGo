@@ -4,5 +4,6 @@
 exports.IOS_PLATFORM_PATH = path.join('platforms', 'ios', 'app', 'src', 'main', 'assets', 'www');
 exports.ANDROID_PLATFORM_PATH = path.join('platforms', 'android', 'app', 'src', 'main', 'assets', 'www');
 
+--port 8250 --livereload-port 35735
 
 ### ionic cordova run browser
